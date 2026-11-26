@@ -5,17 +5,15 @@
   "ida": "2027-02-05",
   "volta": "2027-02-10"
  },
- "atualizado_em": "2026-11-26T04:11:37.142Z",
+ "atualizado_em": "2026-11-26T04:13:20.720Z",
  "link": "https://www.google.com/travel/flights?hl=pt-br&gl=br&curr=BRL&tfs=CBwQAhonEgoyMDI3LTAyLTA1agcIARIDQ1dCcgcIARIDR0lHcgcIARIDU0RVGicSCjIwMjctMDItMTBqBwgBEgNHSUdqBwgBEgNTRFVyBwgBEgNDV0JAAUgBcAGYAQE&tfu=EgIIAQ",
- "preco_alvo": 99999,
+ "preco_alvo": 900,
  "nivel_google": "high",
  "faixa_tipica": [
   420,
   900
  ],
- "motivos": [
-  "abaixo do seu preço-alvo de R$ 99999"
- ],
+ "motivos": [],
  "ofertas": [
   {
    "preco": 1030,
@@ -110,10 +108,11 @@
   {
    "quando": "2026-11-26T04:11:37.142Z",
    "preco": 1030
+  },
+  {
+   "quando": "2026-11-26T04:13:20.720Z",
+   "preco": 1030
   }
  ],
- "ultimo_aviso": {
-  "preco": 1030,
-  "quando": "2026-11-26T04:11:37.142Z"
- }
+ "ultimo_aviso": null
 }
