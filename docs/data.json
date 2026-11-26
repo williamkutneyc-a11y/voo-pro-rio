@@ -5,7 +5,7 @@
   "ida": "2027-02-05",
   "volta": "2027-02-10"
  },
- "atualizado_em": "2026-11-26T04:13:20.720Z",
+ "atualizado_em": "2026-11-26T07:40:19.128Z",
  "link": "https://www.google.com/travel/flights?hl=pt-br&gl=br&curr=BRL&tfs=CBwQAhonEgoyMDI3LTAyLTA1agcIARIDQ1dCcgcIARIDR0lHcgcIARIDU0RVGicSCjIwMjctMDItMTBqBwgBEgNHSUdqBwgBEgNTRFVyBwgBEgNDV0JAAUgBcAGYAQE&tfu=EgIIAQ",
  "preco_alvo": 900,
  "nivel_google": "high",
@@ -46,7 +46,7 @@
    "paradas": 0
   },
   {
-   "preco": 1705,
+   "preco": 1744,
    "companhias": "Gol",
    "origem": "CWB",
    "destino": "GIG",
@@ -56,7 +56,7 @@
    "paradas": 0
   },
   {
-   "preco": 1705,
+   "preco": 1744,
    "companhias": "Gol",
    "origem": "CWB",
    "destino": "GIG",
@@ -111,6 +111,10 @@
   },
   {
    "quando": "2026-11-26T04:13:20.720Z",
+   "preco": 1030
+  },
+  {
+   "quando": "2026-11-26T07:40:19.128Z",
    "preco": 1030
   }
  ],
