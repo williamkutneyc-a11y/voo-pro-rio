@@ -5,7 +5,7 @@
   "ida": "2027-02-05",
   "volta": "2027-02-10"
  },
- "atualizado_em": "2026-11-26T11:57:48.632Z",
+ "atualizado_em": "2026-11-26T13:38:24.279Z",
  "link": "https://www.google.com/travel/flights?hl=pt-br&gl=br&curr=BRL&tfs=CBwQAhonEgoyMDI3LTAyLTA1agcIARIDQ1dCcgcIARIDR0lHcgcIARIDU0RVGicSCjIwMjctMDItMTBqBwgBEgNHSUdqBwgBEgNTRFVyBwgBEgNDV0JAAUgBcAGYAQE&tfu=EgIIAQ",
  "preco_alvo": 900,
  "nivel_google": "high",
@@ -123,6 +123,10 @@
   },
   {
    "quando": "2026-11-26T11:57:48.632Z",
+   "preco": 1030
+  },
+  {
+   "quando": "2026-11-26T13:38:24.279Z",
    "preco": 1030
   }
  ],
