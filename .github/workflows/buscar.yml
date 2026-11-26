@@ -1,0 +1,65 @@
+name: Buscar passagens
+
+on:
+  schedule:
+    - cron: "17 */3 * * *" # a cada 3 horas (o GitHub pode atrasar alguns minutos)
+  workflow_dispatch: # botão "Run workflow"
+  push:
+    branches: [main]
+    paths: ["docs/**", "!docs/data.json", ".github/workflows/buscar.yml"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: buscar
+  cancel-in-progress: false
+
+jobs:
+  buscar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publicar.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Testes
+        run: node --test
+
+      - name: Buscar preços
+        id: busca
+        # Publicar o app não gasta cota da SerpApi
+        if: github.event_name != 'push'
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          PRECO_ALVO: ${{ vars.PRECO_ALVO }}
+        run: node buscar.mjs
+
+      - name: Guardar histórico
+        # Também roda se só o envio do aviso falhou
+        if: always() && steps.busca.outcome != 'skipped'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Atualiza preços"
+          git pull --rebase
+          git push
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs
+      - id: publicar
+        uses: actions/deploy-pages@v4

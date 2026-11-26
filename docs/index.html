@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voo pro Rio</title>
+<meta name="theme-color" content="#0b5cad">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root { --fundo:#f3f6fa; --cartao:#fff; --texto:#14202e; --suave:#5b6b7d; --linha:#dde4ec; --azul:#0b5cad; --bom:#0f7b46; --bomFundo:#e3f5ea; --alerta:#8a5300; --alertaFundo:#fff2d6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fundo:#0e141b; --cartao:#18212b; --texto:#e8eef5; --suave:#98a8ba; --linha:#2a3744; --azul:#6cb2ff; --bom:#6fdca4; --bomFundo:#12331f; --alerta:#ffcf70; --alertaFundo:#3a2c0c; }
+  }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--fundo); color:var(--texto); font:16px/1.45 system-ui, sans-serif; padding:20px 16px calc(32px + env(safe-area-inset-bottom)); max-width:520px; margin:auto; }
+  h1 { font-size:1.35rem; }
+  h2 { font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; color:var(--suave); margin:24px 0 8px; }
+  .suave { color:var(--suave); font-size:.88rem; }
+  .cartao { background:var(--cartao); border:1px solid var(--linha); border-radius:14px; padding:16px; margin-top:12px; }
+  .preco { font-size:2.8rem; font-weight:750; line-height:1.1; font-variant-numeric:tabular-nums; }
+  .selo { display:inline-block; border-radius:99px; padding:3px 12px; font-size:.85rem; font-weight:650; margin-bottom:8px; background:var(--linha); }
+  .selo.bom { background:var(--bomFundo); color:var(--bom); }
+  .aviso { background:var(--alertaFundo); color:var(--alerta); border-radius:12px; padding:10px 14px; margin-top:12px; font-size:.9rem; }
+  .botao { display:block; width:100%; text-align:center; background:var(--azul); color:var(--cartao); border:0; border-radius:12px; padding:13px; font:650 1rem system-ui, sans-serif; text-decoration:none; margin-top:14px; cursor:pointer; }
+  ul { list-style:none; padding:0; }
+  li { display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid var(--linha); }
+  li:last-child { border:0; padding-bottom:0; }
+  li:first-child { padding-top:0; }
+  li b { white-space:nowrap; font-variant-numeric:tabular-nums; }
+  svg { width:100%; height:110px; display:block; overflow:visible; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+  <h1>✈️ Curitiba → Rio</h1>
+  <p class="suave">Ida sex 05/02/2027 · Volta qua 10/02/2027 · 1 adulto</p>
+  <div class="aviso">As datas caem no Carnaval 2027: os preços tendem a subir. Vale comprar quando aparecer um bom valor.</div>
+
+  <div id="status" class="cartao">Carregando…</div>
+
+  <div id="conteudo" hidden>
+    <div class="cartao">
+      <span id="selo" class="selo"></span>
+      <div id="preco" class="preco"></div>
+      <p class="suave">ida e volta, menor preço encontrado</p>
+      <p id="motivos" class="suave"></p>
+      <a id="link" class="botao" target="_blank" rel="noopener">Ver no Google Flights</a>
+    </div>
+
+    <h2>Voos de ida (preço já inclui a volta)</h2>
+    <div class="cartao"><ul id="ofertas"></ul></div>
+
+    <h2>Histórico do menor preço</h2>
+    <div class="cartao">
+      <svg id="grafico" viewBox="0 0 300 100" preserveAspectRatio="none" role="img" aria-label="Evolução do menor preço"></svg>
+      <p id="resumo" class="suave"></p>
+    </div>
+
+    <p class="suave" style="margin-top:16px">Confira bagagem e taxas antes de comprar: tarifas baratas costumam não incluir mala despachada.</p>
+  </div>
+
+  <h2>Comparar em outros sites</h2>
+  <div class="cartao">
+    <p class="suave">Abrem a busca com a rota e as datas. Os preços desses sites não entram nos avisos.</p>
+    <a class="botao" target="_blank" rel="noopener" href="https://www.decolar.com/shop/flights/results/roundtrip/CWB/RIO/2027-02-05/2027-02-10/1/0/0">Decolar</a>
+    <a class="botao" target="_blank" rel="noopener" href="https://www.skyscanner.com.br/transporte/passagens-aereas/cwb/rioa/270205/270210/?adultsv2=1">Skyscanner</a>
+    <a class="botao" target="_blank" rel="noopener" href="https://flights.booking.com/flights/CWB.AIRPORT-RIO.CITY/?type=ROUNDTRIP&amp;adults=1&amp;from=CWB.AIRPORT&amp;to=RIO.CITY&amp;depart=2027-02-05&amp;return=2027-02-10">Booking.com</a>
+  </div>
+
+  <button id="atualizar" class="botao">Atualizar tela</button>
+
+<script>
+const $ = id => document.getElementById(id);
+const reais = v => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const quando = iso => new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+
+function desenhar(d) {
+  const atraso = (Date.now() - new Date(d.atualizado_em)) / 36e5;
+  $("status").className = atraso > 7 ? "aviso" : "cartao suave";
+  $("status").textContent = "Última busca: " + quando(d.atualizado_em) +
+    (atraso > 7 ? ". Está desatualizado — confira a aba Actions no GitHub." : " · nova busca a cada 3 h");
+  $("conteudo").hidden = false;
+
+  const bom = d.motivos.length > 0;
+  $("selo").className = "selo" + (bom ? " bom" : "");
+  $("selo").textContent = bom ? "🔥 Boa promoção" : "Sem promoção agora";
+  $("preco").textContent = reais(d.ofertas[0].preco);
+  $("motivos").textContent = bom ? d.motivos.join("; ") :
+    (d.faixa_tipica ? `Faixa típica no Google: ${reais(d.faixa_tipica[0])} a ${reais(d.faixa_tipica[1])}` : "");
+  $("link").hidden = !String(d.link).startsWith("https://");
+  $("link").href = d.link;
+
+  $("ofertas").replaceChildren(...d.ofertas.map(o => {
+    const li = document.createElement("li");
+    const info = document.createElement("div");
+    const nome = document.createElement("div");
+    nome.textContent = o.companhias;
+    const detalhe = document.createElement("div");
+    detalhe.className = "suave";
+    const paradas = o.paradas ? `${o.paradas} parada${o.paradas > 1 ? "s" : ""}` : "direto";
+    detalhe.textContent = `${o.origem} ${o.partida.slice(11)} → ${o.destino} ${o.chegada.slice(11)} · ${paradas}`;
+    const preco = document.createElement("b");
+    preco.textContent = reais(o.preco);
+    info.append(nome, detalhe);
+    li.append(info, preco);
+    return li;
+  }));
+
+  const valores = d.historico.map(h => h.preco);
+  const min = Math.min(...valores), max = Math.max(...valores);
+  const pontos = valores.map((v, i) => {
+    const x = valores.length > 1 ? i * 300 / (valores.length - 1) : 150;
+    const y = max > min ? 95 - (v - min) * 90 / (max - min) : 50;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  if (pontos.length === 1) pontos.push(pontos[0].replace("150.0", "151.0"));
+  $("grafico").innerHTML = `<polyline points="${pontos.join(" ")}" fill="none" stroke="var(--azul)" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>`;
+  $("resumo").textContent = `Mínimo ${reais(min)} · Máximo ${reais(max)} · ${valores.length} leitura${valores.length > 1 ? "s" : ""} desde ${quando(d.historico[0].quando)}`;
+}
+
+async function carregar() {
+  try {
+    const r = await fetch("data.json", { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    if (d.ofertas?.length) desenhar(d);
+    else $("status").textContent = "Ainda não há preços. A primeira busca aparece aqui depois que o robô rodar.";
+  } catch {
+    $("status").textContent = "Não consegui carregar os preços. Verifique a internet e tente de novo.";
+  }
+}
+
+$("atualizar").addEventListener("click", carregar);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) carregar(); });
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+carregar();
+</script>
+</body>
+</html>
