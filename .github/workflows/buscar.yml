@@ -58,8 +58,12 @@ jobs:
           git push
 
       - uses: actions/configure-pages@v5
+        # Publica os preços mesmo que só o envio do aviso tenha falhado
+        if: success() || steps.busca.outcome == 'failure'
       - uses: actions/upload-pages-artifact@v4
+        if: success() || steps.busca.outcome == 'failure'
         with:
           path: docs
       - id: publicar
+        if: success() || steps.busca.outcome == 'failure'
         uses: actions/deploy-pages@v4
