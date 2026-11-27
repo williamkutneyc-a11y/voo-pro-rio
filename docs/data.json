@@ -5,7 +5,7 @@
   "ida": "2027-02-05",
   "volta": "2027-02-10"
  },
- "atualizado_em": "2026-11-27T19:14:51.187Z",
+ "atualizado_em": "2026-11-27T22:11:19.075Z",
  "link": "https://www.google.com/travel/flights?hl=pt-br&gl=br&curr=BRL&tfs=CBwQAhonEgoyMDI3LTAyLTA1agcIARIDQ1dCcgcIARIDR0lHcgcIARIDU0RVGicSCjIwMjctMDItMTBqBwgBEgNHSUdqBwgBEgNTRFVyBwgBEgNDV0JAAUgBcAGYAQE&tfu=EgIIAQ",
  "preco_alvo": 900,
  "nivel_google": "typical",
@@ -15,11 +15,11 @@
  ],
  "motivos": [
   "abaixo do seu preço-alvo de R$ 900",
-  "20% abaixo da média recente"
+  "13% abaixo da média recente"
  ],
  "ofertas": [
   {
-   "preco": 825,
+   "preco": 897,
    "companhias": "Gol",
    "origem": "CWB",
    "destino": "GIG",
@@ -39,6 +39,36 @@
    "paradas": 2
   },
   {
+   "preco": 1342,
+   "companhias": "Gol",
+   "origem": "CWB",
+   "destino": "GIG",
+   "partida": "2027-02-05 15:00",
+   "chegada": "2027-02-05 21:45",
+   "duracao_min": 405,
+   "paradas": 2
+  },
+  {
+   "preco": 1342,
+   "companhias": "Gol",
+   "origem": "CWB",
+   "destino": "GIG",
+   "partida": "2027-02-05 13:05",
+   "chegada": "2027-02-05 20:20",
+   "duracao_min": 435,
+   "paradas": 2
+  },
+  {
+   "preco": 1342,
+   "companhias": "Gol",
+   "origem": "CWB",
+   "destino": "GIG",
+   "partida": "2027-02-05 13:05",
+   "chegada": "2027-02-05 20:20",
+   "duracao_min": 435,
+   "paradas": 2
+  },
+  {
    "preco": 1551,
    "companhias": "Gol",
    "origem": "CWB",
@@ -47,16 +77,6 @@
    "chegada": "2027-02-05 22:15",
    "duracao_min": 265,
    "paradas": 1
-  },
-  {
-   "preco": 1775,
-   "companhias": "Azul",
-   "origem": "CWB",
-   "destino": "GIG",
-   "partida": "2027-02-05 17:00",
-   "chegada": "2027-02-05 18:30",
-   "duracao_min": 90,
-   "paradas": 0
   },
   {
    "preco": 1796,
@@ -77,26 +97,6 @@
    "chegada": "2027-02-05 12:05",
    "duracao_min": 80,
    "paradas": 0
-  },
-  {
-   "preco": 1801,
-   "companhias": "Gol",
-   "origem": "CWB",
-   "destino": "GIG",
-   "partida": "2027-02-05 18:35",
-   "chegada": "2027-02-05 20:00",
-   "duracao_min": 85,
-   "paradas": 0
-  },
-  {
-   "preco": 1954,
-   "companhias": "LATAM",
-   "origem": "CWB",
-   "destino": "GIG",
-   "partida": "2027-02-05 11:40",
-   "chegada": "2027-02-05 21:15",
-   "duracao_min": 575,
-   "paradas": 1
   }
  ],
  "historico": [
@@ -171,6 +171,10 @@
   {
    "quando": "2026-11-27T19:14:51.187Z",
    "preco": 825
+  },
+  {
+   "quando": "2026-11-27T22:11:19.075Z",
+   "preco": 897
   }
  ],
  "ultimo_aviso": {
